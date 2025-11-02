@@ -57,9 +57,9 @@ duracion = t[-1] - t[0]
 print(f"fs = {fs} Hz, duración ≈ {duracion:.2f} s, muestras = {len(x)}")
 ```
 Obtenemos:
-+ **fs = 2000 Hz*
-+ **duración ≈ 5.00 s*
-+ **muestras = 10000*
++ *fs = 2000 Hz*
++ *duración ≈ 5.00 s*
++ *muestras = 10000*
 
 Filtramos la señal:
 ```python
