@@ -295,7 +295,7 @@ print(f"Segmentos obtenidos: {len(segmentos)} (longitud media ≈ {np.mean([len(
 ```
 + *Segmentos obtenidos: 5 (longitud media=0.70s)*
 
-+**Calculamos la frecuencia media y frecuencia mediana**
++ **Calculamos la frecuencia media y frecuencia mediana**
 ```python
 from scipy.signal import windows
 import pandas as pd
