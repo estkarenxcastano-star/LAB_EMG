@@ -198,9 +198,10 @@ plt.show()
 print(f"fs = {fs} Hz | muestras = {len(x)} | duración ≈ {t[-1]-t[0]:.2f} s")
 ```
 <img width="684" height="312" alt="image" src="https://github.com/user-attachments/assets/467c9745-5fdf-4e3d-9093-60d4a9e71ee6" />
-+ **fs = 2000 Hz**
-+ **muestras = 10000**
-+ **duración ≈ 5.00 s**
+
++ *fs = 2000 Hz*
++ *muestras = 10000*
++ *duración ≈ 5.00 s*
 
 Filtramos la señal:
 ```python
