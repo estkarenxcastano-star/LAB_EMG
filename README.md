@@ -251,6 +251,7 @@ plt.grid(True); plt.legend(); plt.show()
 print("Índices de picos:", peaks)
 ```
 <img width="683" height="313" alt="image" src="https://github.com/user-attachments/assets/038f26a9-bb36-4877-afcd-4cc803c43920" />
+
 + **Índices de picos: [ 929 3090 4915 7091 9003]**
 
 ```python
