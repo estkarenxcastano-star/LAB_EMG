@@ -422,7 +422,7 @@ plt.show()
 Obteniendo la siguiente imágen:
 <img width="789" height="392" alt="image" src="https://github.com/user-attachments/assets/4a738775-94d9-406e-8b67-fc9b924f99b2" />
 
-+ **Comparación de los espectros de las primeras contracciones con los de las últimas:
++ **Comparación de los espectros de las primeras contracciones con los de las últimas:**
 ```python
 import numpy as np
 from scipy.signal import windows
