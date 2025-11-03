@@ -383,6 +383,155 @@ plt.show()
 ```
 <img width="632" height="391" alt="image" src="https://github.com/user-attachments/assets/9bdf5928-90aa-47d6-9bf7-fd73996cf2ae" />
 
+La envolvente RMS permitió identificar automáticamente cinco contracciones voluntarias. Se observó una tendencia descendente en las métricas espectrales: la frecuencia media y la frecuencia mediana decrecieron desde la primera hasta la quinta contracción, evidenciando un desplazamiento del contenido espectral hacia bajas frecuencias típico del proceso de fatiga muscular. La comparación de espectros (FFT) entre la primera y la última contracción confirma la reducción relativa de energía en bandas altas (≈100–200 Hz) y el aumento relativo en bandas más bajas, coherente con la disminución de la velocidad de conducción y el cambio en el reclutamiento de unidades motoras.
+
+# PARTE C- ANÁLISIS ESPECTRAL MEDIANTE FFT
+
+Como primera parte se cargan los archivos correspondientes a la señal EMG emulada y a la señal EMG real, para posteriormente compararlas en el dominio del tiempo y la frecuencia.
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Cambia los nombres por los archivos que subas
+df_emulada = pd.read_csv("Practica_4.txt.txt", sep="\t")
+df_real    = pd.read_csv("Señal EMG real.txt", sep="\t")
+
+tA, xA = df_emulada.iloc[:,0].to_numpy(), df_emulada.iloc[:,1].to_numpy()
+tB, xB = df_real.iloc[:,0].to_numpy(), df_real.iloc[:,1].to_numpy()
+```
+Ahora graficamos la señal:
+```python
+plt.figure(figsize=(10,5))
+plt.subplot(2,1,1)
+plt.plot(tA, xA, color='royalblue')
+plt.title("Señal EMG simulada")
+plt.ylabel("Amplitud [V]")
+plt.grid(True)
+
+plt.subplot(2,1,2)
+plt.plot(tB, xB, color='firebrick')
+plt.title("Señal EMG real")
+plt.xlabel("Tiempo [s]")
+plt.ylabel("Amplitud [V]")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+Obteniendo la siguiente imágen:
+<img width="789" height="392" alt="image" src="https://github.com/user-attachments/assets/4a738775-94d9-406e-8b67-fc9b924f99b2" />
+
++ **Comparación de los espectros de las primeras contracciones con los de las últimas:
+```python
+import numpy as np
+from scipy.signal import windows
+
+def espectro(sig, fs):
+    w = windows.hann(len(sig))
+    X = np.fft.rfft(sig * w)
+    f = np.fft.rfftfreq(len(sig), d=1/fs)
+    Pxx = np.abs(X)**2
+    Pxx /= Pxx.max() + 1e-12
+    return f, Pxx
+
+fsA = int(round(1/(tA[1]-tA[0])))
+fsB = int(round(1/(tB[1]-tB[0])))
+
+fA, PA = espectro(xA, fsA)
+fB, PB = espectro(xB, fsB)
+
+plt.figure(figsize=(8,5))
+plt.plot(fA, PA, label="EMG simulada", color='royalblue')
+plt.plot(fB, PB, label="EMG real", color='firebrick')
+plt.xlim(0, 400)
+plt.xlabel("Frecuencia [Hz]")
+plt.ylabel("Potencia normalizada")
+plt.title("Comparación espectral EMG emulada vs real")
+plt.grid(True, alpha=0.4)
+plt.legend()
+plt.tight_layout()
+plt.show()
+```
+<img width="630" height="388" alt="image" src="https://github.com/user-attachments/assets/378a4d88-da49-4e2a-8137-6a2185ff411b" />
+
++ **Calculamos la frecuencia media y la frecuencia mediana**
+```python
+def frec_media_mediana(f, Pxx):
+    den = np.sum(Pxx)
+    fm = np.sum(f*Pxx)/den
+    Pc = np.cumsum(Pxx)
+    fmed = f[np.searchsorted(Pc, 0.5*Pc[-1])]
+    return fm, fmed
+
+fmA, fmedA = frec_media_mediana(fA, PA)
+fmB, fmedB = frec_media_mediana(fB, PB)
+
+print(f"Señal simulada:  FM = {fmA:.1f} Hz, FMed = {fmedA:.1f} Hz")
+print(f"Señal real:     FM = {fmB:.1f} Hz, FMed = {fmedB:.1f} Hz")
+```
+Obteniendo como resultados:
++ *Señal simulada:  FM = 228.8 Hz, FMed = 233.4 Hz*
++ *Señal real:     FM = 100.7 Hz, FMed = 94.4 Hz*
+
++ **Calculamos el pico espectral y la potencia**
+```python
+import numpy as np
+import pandas as pd
+from scipy.signal import windows
+import matplotlib.pyplot as plt
+
+# FFT por contracción + métricas
+peak_freqs, hf_pct = [], []
+hf_low, hf_high = 100, 250
+
+for seg in segmentos:
+    w = windows.hann(len(seg))
+    X = np.fft.rfft(seg*w)
+    f = np.fft.rfftfreq(len(seg), d=1/fs)
+    A = np.abs(X)
+    P = (np.abs(X)**2)
+    peak_freqs.append(float(f[np.argmax(A)]))
+    band = (f>=hf_low) & (f<=hf_high)
+    hf_pct.append(float(100.0*P[band].sum()/(P.sum()+1e-12)))
+
+res_fft = pd.DataFrame({
+    "Contracción": np.arange(1,len(segmentos)+1),
+    "Pico espectral (Hz)": np.round(peak_freqs,1),
+    f"% Potencia {hf_low}-{hf_high} Hz": np.round(hf_pct,1)
+})
+display(res_fft)
+
+# Desplazamiento 5ª-1ª
+delta_peak = peak_freqs[-1] - peak_freqs[0]
+print(f"Δ pico espectral (5ª-1ª): {delta_peak:.1f} Hz")
+
+# Graficar evolución de pico
+plt.figure(figsize=(8,4))
+plt.plot(res_fft["Contracción"], res_fft["Pico espectral (Hz)"], 'o-'); plt.grid(True, alpha=.4)
+plt.xlabel("Contracción"); plt.ylabel("Pico espectral [Hz]")
+plt.title("Evolución del pico espectral"); plt.show()
+
+plt.figure(figsize=(8,4))
+plt.plot(res_fft["Contracción"], res_fft[f"% Potencia {hf_low}-{hf_high} Hz"], 's-'); plt.grid(True, alpha=.4)
+plt.xlabel("Contracción"); plt.ylabel(f"% Potencia alta [{hf_low}-{hf_high}]")
+plt.title("Evolución de contenido de alta frecuencia"); plt.show()
+```
+Obteniendo como resultados:
+
+| Contracción | Pico espectral (Hz) | % Potencia 100–250 Hz |
+|--------------|----------------------|------------------------|
+| 1            | 130.0                | 56.8                   |
+| 2            | 147.1                | 58.1                   |
+| 3            | 128.6                | 40.3                   |
+| 4            | 78.6                 | 30.7                   |
+| 5            | 68.6                 | 18.2                   |
+ 
++ **Δ pico espectral (5ª-1ª): -61.4 Hz**
+
+<img width="554" height="312" alt="image" src="https://github.com/user-attachments/assets/cc6ac00c-e316-4250-97bc-a55409c8ec33" />
+
+<img width="549" height="314" alt="image" src="https://github.com/user-attachments/assets/41338511-05fb-4737-b533-d634b302a55c" />
+
+
 
 
 
