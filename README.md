@@ -5,6 +5,9 @@ Analizar señales electromiográficas (EMG) mediante filtrado y análisis espect
 
 # PARTE A-CAPTURA DE LA SEÑAL EMULADA
 
+<img width="286" height="1280" alt="image" src="https://github.com/user-attachments/assets/824be444-6c1d-47e2-883c-7ead2c120f65" />
+
+
 ## LIBERERIAS
 Las librerias que implementamos fueron las siguientes:
 ```python
@@ -157,6 +160,9 @@ La reducción de la frecuencia media y mediana es un indicador típico de fatiga
 2. Aumento relativo de componentes de baja frecuencia en el espectro.
 
 # PARTE B-CAPTURA DE LA SEÑAL DEL PACIENTE
+
+<img width="234" height="1280" alt="image" src="https://github.com/user-attachments/assets/54cdca19-788d-472a-bce3-6c43dd2cdd33" />
+
 
 Para la adquisición de la señal EMG real, se colocaron electrodos de superficie sobre el músculo bíceps braquial del brazo derecho, con un electrodo de referencia en la muñeca. Nuestra compañera realizó cinco contracciones voluntarias isométricas de flexión del antebrazo contra resistencia, cada una de aproximadamente 1 segundo de duración. Entre contracciones se dejó un breve periodo de relajación para permitir la recuperación parcial del músculo.
 
@@ -388,6 +394,9 @@ plt.show()
 La envolvente RMS permitió identificar automáticamente cinco contracciones voluntarias. Se observó una tendencia descendente en las métricas espectrales: la frecuencia media y la frecuencia mediana decrecieron desde la primera hasta la quinta contracción, evidenciando un desplazamiento del contenido espectral hacia bajas frecuencias típico del proceso de fatiga muscular. La comparación de espectros (FFT) entre la primera y la última contracción confirma la reducción relativa de energía en bandas altas (≈100–200 Hz) y el aumento relativo en bandas más bajas, coherente con la disminución de la velocidad de conducción y el cambio en el reclutamiento de unidades motoras.
 
 # PARTE C- ANÁLISIS ESPECTRAL MEDIANTE FFT
+
+<img width="250" height="1280" alt="image" src="https://github.com/user-attachments/assets/3a86b911-5d37-4fe7-aabc-1b346f8ba53a" />
+
 
 Como primera parte se cargan los archivos correspondientes a la señal EMG emulada y a la señal EMG real, para posteriormente compararlas en el dominio del tiempo y la frecuencia.
 ```python
