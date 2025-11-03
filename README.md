@@ -533,8 +533,18 @@ Obteniendo como resultados:
 
 <img width="549" height="314" alt="image" src="https://github.com/user-attachments/assets/41338511-05fb-4737-b533-d634b302a55c" />
 
++ **Conclusiones sobre el uso del análisis espectral como herramienta diagnóstica en electromiografía.**
+El análisis espectral mediante FFT permitió observar con precisión los cambios de frecuencia de la señal EMG a lo largo de las contracciones musculares. En las primeras contracciones se pudo observar un espectro con mayor concentración de energía en las bandas altas (aproximadamente entre 100 y 200 Hz), mientras que en las últimas contracciones este contenido se desplazó hacia frecuencias más bajas, acompañado de una ligera disminución en la amplitud del pico espectral.
 
+Este desplazamiento y la reducción del contenido de alta frecuencia sugieren la fatiga muscular, fenómeno asociado a una menor velocidad de conducción de las fibras musculares.
 
+Por tanto, el análisis espectral en electromiografía se consolida como una herramienta diagnóstica eficaz para:
+
+1. Evaluar objetivamente la aparición y el grado de fatiga muscular.
+
+2. Comparar patrones de activación entre músculos o condiciones experimentales.
+
+3. Complementar el diagnóstico clínico en estudios de función neuromuscular, rehabilitación o entrenamiento físico.
 
 
 
