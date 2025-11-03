@@ -383,6 +383,8 @@ plt.show()
 ```
 <img width="632" height="391" alt="image" src="https://github.com/user-attachments/assets/9bdf5928-90aa-47d6-9bf7-fd73996cf2ae" />
 
++ **Relación entre los cambios de frecuencia y la fisiología de la fatiga muscular**
+
 La envolvente RMS permitió identificar automáticamente cinco contracciones voluntarias. Se observó una tendencia descendente en las métricas espectrales: la frecuencia media y la frecuencia mediana decrecieron desde la primera hasta la quinta contracción, evidenciando un desplazamiento del contenido espectral hacia bajas frecuencias típico del proceso de fatiga muscular. La comparación de espectros (FFT) entre la primera y la última contracción confirma la reducción relativa de energía en bandas altas (≈100–200 Hz) y el aumento relativo en bandas más bajas, coherente con la disminución de la velocidad de conducción y el cambio en el reclutamiento de unidades motoras.
 
 # PARTE C- ANÁLISIS ESPECTRAL MEDIANTE FFT
